@@ -2,34 +2,15 @@ openapi: 3.0.0
 info:
   title: Todo API
   version: 1.0.0
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    in: header
-    name: Authorization
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # optional, for documentation purposes only
+
 security:
-  - Bearer: []
-definitions:
-  User:
-    type: object
-    properties:
-      id:
-        type: integer
-        example: 1
-      name:
-        type: string
-        example: John Doe
-      email:
-        type: string
-        example: john.doe@example.com
-      created_at:
-        type: string
-        format: date-time
-        example: "2023-03-01T15:20:00Z"
-      updated_at:
-        type: string
-        format: date-time
-        example: "2023-03-01T15:20:00Z"
+  - bearerAuth: []
 
 paths:
   /auth/login:
@@ -40,16 +21,16 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
-                username:
+                email:
                   type: string
                 password:
                   type: string
               required:
-                - username
+                - email
                 - password
       responses:
         '200':
@@ -318,10 +299,4 @@ paths:
         '204':
           description: Item deleted successfully
 
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
 
