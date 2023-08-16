@@ -317,6 +317,7 @@ paths:
       responses:
         '204':
           description: Item deleted successfully
+
 components:
   securitySchemes:
     BearerAuth:
