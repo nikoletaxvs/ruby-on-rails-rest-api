@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  version: 1.0.0
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+security:
+  - Bearer: []
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: John Doe
+      email:
+        type: string
+        example: john.doe@example.com
+      created_at:
+        type: string
+        format: date-time
+        example: "2023-03-01T15:20:00Z"
+      updated_at:
+        type: string
+        format: date-time
+        example: "2023-03-01T15:20:00Z"
+
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Authentication successful
+  /signup:
+    post:
+      summary: User signup
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+      responses:
+        '201':
+          description: User created successfully
+      examples:
+        example-1:
+          value:
+            name: ash
+            email: ash@email.com
+            password: foobar
+            password_confirmation: foobar
+  /todos:
+    get:
+      summary: List all todos
+      tags:
+        - Todos
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a todo
+      tags:
+        - Todos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '201':
+          description: Todo created successfully
+    
+  /todos/{id}:
+    get:
+      summary: Get a todo by ID
+      tags:
+        - Todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+    patch:
+      summary: Update a todo by ID
+      tags:
+        - Todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+      responses:
+        '200':
+          description: Todo updated successfully
+    put:
+      summary: Update a todo by ID
+      tags:
+        - Todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+      responses:
+        '200':
+          description: Todo updated successfully
+    delete:
+      summary: Delete a todo by ID
+      tags:
+        - Todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Todo deleted successfully
+  /todos/{todo_id}/items:
+    get:
+      summary: List items for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create an item for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        '201':
+          description: Item created successfully
+
+  /todos/{todo_id}/items/{id}:
+    get:
+      summary: Get an item by ID for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+    patch:
+      summary: Update an item by ID for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Item updated successfully
+    put:
+      summary: Update an item by ID for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Item updated successfully
+    delete:
+      summary: Delete an item by ID for a todo
+      tags:
+        - Todo Items
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Item deleted successfully
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
