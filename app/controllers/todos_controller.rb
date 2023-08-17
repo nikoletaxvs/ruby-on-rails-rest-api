@@ -4,8 +4,8 @@ class TodosController < ApplicationController
    # GET /todos
   def index
     # get current user todos
-    @todos = current_user.todos
-    json_response(@todos)
+    @todos = current_user.todos.includes(:items)
+    json_response( @todos.as_json(include: :items))
   end
   # [...]
   # POST /todos

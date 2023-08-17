@@ -72,7 +72,7 @@ paths:
             password_confirmation: foobar
   /todos:
     get:
-      summary: List all todos
+      summary: List all todos and their items
       tags:
         - Todos
       responses:
