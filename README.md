@@ -1,4 +1,6 @@
 # Rest api routes and their functionality
+Youtube Presentation at : https://www.youtube.com/watch?v=OtpAp2BdoWI&t=29s
+![image](https://github.com/nikoletaxvs/ruby-on-rails-rest-api/assets/60019367/5edc36ca-9482-4b53-ad37-3be1f1960ef4)
 
 Endpoint	-  Functionality<br><br>
 POST /signup	Signup<br>
